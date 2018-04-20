@@ -1,0 +1,46 @@
+---
+
+#- hosts: all
+#  gather_facts: False
+#  tasks:
+#    - name: install python 2
+#      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- hosts: all
+  become: true
+  gather_facts: false
+  pre_tasks:
+    - name: Install python2 for Ansible
+      raw: test -e /usr/bin/python || (apt update && apt install -y python-simplejson)
+      register: test
+      changed_when: test.stdout
+    - name: Gathering Facts
+      setup:
+
+#- hosts: web
+#  gather_facts: False
+#  roles:
+#    - install-web
+#  become: true
+#
+#- hosts: db
+#  gather_facts: True
+#  roles:
+#    - TalLannder.mysql
+#  become: true
+
+#- hosts: web
+#  gather_facts: true
+#  #sudo: true
+##  vars:
+##    master_ip: "{{hostvars[groups['web'][0]]['ansible_eth0']['ipv4']['address']}}"
+#  roles:
+#    - common
+#
+#- hosts: db
+#  gather_facts: true
+#  #sudo: true
+##  vars:
+##    master_ip: "{{hostvars[groups['master'][0]]['ansible_eth0']['ipv4']['address']}}"
+#  roles:
+#    - common
